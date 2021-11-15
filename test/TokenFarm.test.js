@@ -103,6 +103,9 @@ contract('TokenFarm', ([owner, investor]) => { //onwer is the person who deploye
             result = await tokenFarm.stakingBalance(investor)
             assert.equal(result.toString(), tokens('0'), "investor staking balance correct after staking")
         
+            result = await tokenFarm.isStaking(investor)
+            assert.equal(result.toString(), 'false', "investor staking status correct after staking")
+        
         })
 
       

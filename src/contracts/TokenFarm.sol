@@ -20,6 +20,8 @@ contract TokenFarm {
 
     // taking Tokens (Deposit)--------
     function stakeTokens(uint _amount) public {
+        
+
         //Transfer Mock Dai tokens to this contract for staking
         daiToken.transferFrom(msg.sender, address(this), _amount);
 
@@ -43,7 +45,14 @@ contract TokenFarm {
     // Issuing Tokens-------------------
 
     function issueToken() public {
-        
+        for(uint i = 0; i < stakers.length ;i++ ) {
+            address recipient = stakers[i];
+            uint balance = stakingBalance[recipient];
+            if(balance > 0) {
+                 dappToken.transfer(recipient, balance);
+            }
+           
+        }
     }
 
 }

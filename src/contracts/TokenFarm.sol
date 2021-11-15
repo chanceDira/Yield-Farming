@@ -26,7 +26,7 @@ contract TokenFarm {
         require(_amount > 0, "amount cannot be 0" );
 
         //Transfer Mock Dai tokens to this contract for staking
-        daiToken.transferFrom(msg.sender, address(this), _amount);
+        daiToken.transferFrom(msg.sender, address(this), _amount); // transfer tokens from user to the app
 
         // Update staking balance
         stakingBalance[msg.sender] = stakingBalance[msg.sender] + _amount;
@@ -49,7 +49,17 @@ contract TokenFarm {
         uint balance = stakingBalance[msg.sender];
 
         // Require amount greater than 0
-        require(balance > 0, "staking balance cannot be 0");
+        require(balance > 0, "staking balance ca nnot be 0");
+
+        //Transfer Mock Dai tokens to this contract for staking
+        daiToken.transfer(msg.sender, balance); // transfer tokens from app to the user
+
+        // Reset staking balance
+        stakingBalance[msg.sender] = 0;
+
+        //Update staking status
+        isStaking[msg.sender] = false;
+
 
     }
 

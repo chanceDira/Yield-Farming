@@ -26,7 +26,7 @@ class App extends Component {
                 >
                 </a>
 
-                <h1>Hello, World!</h1>
+                <h1>Hello, Chance!</h1>
 
               </div>
             </main>

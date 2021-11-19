@@ -4,6 +4,7 @@ import DaiToken from '../abis/DaiToken.json'
 import DappToken from '../abis/DappToken.json'
 import TokenFarm from '../abis/TokenFarm.json'
 import Navbar from './Navbar'
+import Main from './Main'
 import './App.css'
 
 class App extends Component {
@@ -20,7 +21,7 @@ class App extends Component {
     this.setState({ account: accounts[0]})
 
     const networkId = await web3.eth.net.getId()
-    console.log(networkId)  //5777 networkId for Ganache
+    // console.log(networkId)  //5777 networkId for Ganache
 
     //Load DaiToken
     const daiTokenData = DaiToken.networks[networkId]
@@ -47,6 +48,21 @@ class App extends Component {
     } else {
       window.alert('DappToken contract not deployed to detected network. ')
     }
+
+    //Load TokenFarm
+    const tokenFarmData = TokenFarm.networks[networkId]
+    if(tokenFarmData) {
+      const tokenFarm = new web3.eth.Contract(TokenFarm.abi, tokenFarmData.address)  //abi - JSON
+      this.setState({ tokenFarm })
+      // console.log("tokenFarm ", tokenFarm)
+      let stakingBalance = await tokenFarm.methods.stakingBalance(this.state.account).call()
+      this.setState({ stakingBalance: stakingBalance.toString()})
+      // console.log({ balance: stakingBalance})  // 0 tokens 
+    } else {
+      window.alert('TokenFarm contract not deployed to detected network. ')
+    }
+
+    this.setState({ loading: false })
 
   }
 
@@ -79,6 +95,21 @@ class App extends Component {
   }
 
   render() {
+
+    let content 
+
+    if (this.state.loading) {
+      content = <p id='loader' className='text-center'>Loading...</p>
+    } else {
+      content = <Main
+          daiTokenBalance = {this.state.daiTokenBalance}
+          dappTokenBalance = {this.state.dappTokenBalance}
+          stakingBalance = {this.state.stakingBalance}
+          // stakeTokens = {this.stakeTokens}
+          // unstakeTokens = {this.unstakeTokens}
+      />
+    }
+
     return (
       <div>
         <Navbar account={this.state.account} />
@@ -93,7 +124,7 @@ class App extends Component {
                 >
                 </a>
 
-                <h1>Hello, Chance!</h1>
+                {content}
 
               </div>
             </main>

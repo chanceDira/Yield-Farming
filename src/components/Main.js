@@ -22,9 +22,9 @@ class Main extends Component {
             </tbody>
         </table>
 
-        <div>
-            <div>
-                
+        <div className="card mb-4">
+            <div className="card-body">
+                <p>Chance Desire IRADUKUNDA</p>
             </div>
         </div>
     

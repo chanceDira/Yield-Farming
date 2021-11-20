@@ -80,6 +80,15 @@ class App extends Component {
      
   }
 
+  stakeTokens = (amount) => {
+    this.setState({ loading: true })
+    this.state.daiToken.methods.approve(this.state.tokenFarm._address, amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+      this.state.tokenFarm.methods.stakeTokens(amount).send({ from: this.state.account }).on('transactionHash', (hash) => {
+        this.setState({ loading: false })
+      })
+    })
+  }
+
   constructor(props) {
     super(props)
     this.state = {
@@ -105,7 +114,7 @@ class App extends Component {
           daiTokenBalance = {this.state.daiTokenBalance}
           dappTokenBalance = {this.state.dappTokenBalance}
           stakingBalance = {this.state.stakingBalance}
-          // stakeTokens = {this.stakeTokens}
+          stakeTokens = {this.stakeTokens}
           // unstakeTokens = {this.unstakeTokens}
       />
     }

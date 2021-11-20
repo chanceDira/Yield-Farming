@@ -115,7 +115,9 @@ class App extends Component {
     let content 
 
     if (this.state.loading) {
-      content = <p id='loader' className='text-center'>Loading...</p>
+      // content = <p id='loader' className='text-center'>Loading...</p>
+      content = <div class="alert alert-warning" role="alert">
+      <strong>Loading</strong></div>
     } else {
       content = <Main
           daiTokenBalance = {this.state.daiTokenBalance}

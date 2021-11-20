@@ -57,6 +57,17 @@ class Main extends Component {
                 <button type='submit' className='btn btn-primary btn-block btn-lg'>STAKE!</button>
               </form>
 
+              <button
+                type='submit'
+                className='btn btn-link btn-block btn-sm'
+                onClick={(event) => {
+                  event.preventDefault()
+                  this.props.unstakeTokens()
+                }}
+              >
+                UN-STAKE...
+              </button>
+
             </div>
         </div>
     
